@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.io.*;
 
 public class Bank {
 	// Variable for logging/not logging
@@ -9,11 +10,23 @@ public class Bank {
 	private static int accountCounter = 1;
 	private String name;
 	private ArrayList<Account> accounts;
-
+	
 	public Bank() {
 		this("Bank Name");
 	}
 
+	/*
+	 * try {
+			fw.append(message);
+			fw.append(message);
+			fw.close();
+			System.out.println("Writing to file hello.txt");
+			
+		} catch (IOException e) {
+			System.out.println("OOPS");
+			e.printStackTrace();
+		}
+	 */
 	public Bank(String name) {
 		this.name = name;
 		accounts = new ArrayList<>();
@@ -36,6 +49,15 @@ public class Bank {
 		}
 		accounts.remove(account);
 		log("Successfully closed " + account);
+		try
+		{
+			FileWriter fw = new FileWriter("Info.txt");
+			fw.append(account+"\n");
+			
+		}catch(IOException e) {
+			System.out.println("Unable to find file");
+			e.printStackTrace();
+		}
 		return true;
 	}
 
