@@ -47,17 +47,9 @@ public class Bank {
 			log("Could not close account " + accountNumber);
 			return false;
 		}
+		saveAccounts(accountNumber);
 		accounts.remove(account);
 		log("Successfully closed " + account);
-		try
-		{
-			FileWriter fw = new FileWriter("Info.txt");
-			fw.append(account+"\n");
-			
-		}catch(IOException e) {
-			System.out.println("Unable to find file");
-			e.printStackTrace();
-		}
 		return true;
 	}
 
@@ -97,8 +89,19 @@ public class Bank {
 		return account.balance;
 	}
 
-	public void saveAccounts(String filename) {
+	public void saveAccounts(int AccountNumber) {
 		// TODO
+		Account account = findAccount(AccountNumber);
+		try
+		{
+			FileWriter fw = new FileWriter("Info.txt");
+			fw.append(account.toString()+"\n");
+			fw.close();
+			
+		}catch(IOException e) {
+			System.out.println("Unable to find file");
+			e.printStackTrace();
+		}
 		log("Save not yet implemented.");
 	}
 
@@ -136,7 +139,8 @@ public class Bank {
 		}
 
 		public String toString() {
-			return "{" + accountNumber + "::" + name + "::$" + balance + "}";
+			String ANS = String.format("%04d", accountNumber);
+			return "{" + ANS + "::" + name + "::$" + balance + "}";
 		}
 
 	}
