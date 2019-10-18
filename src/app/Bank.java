@@ -15,18 +15,6 @@ public class Bank {
 		this("Bank Name");
 	}
 
-	/*
-	 * try {
-			fw.append(message);
-			fw.append(message);
-			fw.close();
-			System.out.println("Writing to file hello.txt");
-			
-		} catch (IOException e) {
-			System.out.println("OOPS");
-			e.printStackTrace();
-		}
-	 */
 	public Bank(String name) {
 		this.name = name;
 		accounts = new ArrayList<>();
@@ -104,10 +92,50 @@ public class Bank {
 		}
 		log("Save not yet implemented.");
 	}
+	public String getAccountIF(int AN)
+	{
+		String AIF,AIF2; int AIFAN;
+		 try(BufferedReader br = new BufferedReader(new FileReader("Info.txt")))
+		    {
+		        while ((AIF = br.readLine()) != null) 
+		        {
+		            AIFAN = Integer.parseInt(AIF.substring(1, 5));
+		            if(AIFAN == AN)
+		            {
 
-	public void loadAccounts(String filename) {
-		// TODO
-		log("Load not yet implemented.");
+			            return AIF;
+		            }
+		        }
+		    }
+		    catch (IOException e) 
+		    {
+				System.out.println("Unable to find file");
+		        e.printStackTrace();
+		    }
+		 return null;
+		
+	}
+
+	public boolean loadAccounts(int AN) {
+		String FS = getAccountIF(AN);
+		if(FS == null)
+		{
+			return false;
+		}else
+		{
+
+			FS = FS.substring(7);
+			
+			int index1 = FS.indexOf("::$");
+			
+			String name = FS.substring(0,index1);
+			int balance = Integer.parseInt(FS.substring(index1+3, FS.length()-2));
+			
+			Account AFF = new Account(AN, name, balance);
+			accounts.add(AFF);
+			
+			return true;
+		}
 	}
 
 	private Account findAccount(int accountNumber) {
@@ -131,11 +159,23 @@ public class Bank {
 		int accountNumber;
 		String name;
 		int balance;
-
 		private Account(String name) {
 			this.name = name;
-			balance = 0;
-			accountNumber = accountCounter++;
+			balance = 0; 
+			int C1 = 0;
+			boolean TF; TF = true;
+			while(TF)
+			{
+				C1++;
+				TF = loadAccounts(C1);
+			}
+			accountNumber = C1;
+		}
+		private Account(int AN, String name, int balance)
+		{
+			this.name = name;
+			accountNumber = AN;
+			this.balance = balance;
 		}
 
 		public String toString() {

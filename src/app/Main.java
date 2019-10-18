@@ -4,30 +4,43 @@ public class Main {
 
 	public static void main(String[] args) 
 	{
-		int ACCN,DAM,WAM,Ans1,Ans2;
+		int ACCN,DAM,WAM,Ans1,Ans2; ACCN = 0;
 		String Username; Username = "";
 		Bank bank = new Bank("Default Bank");
-		boolean TF = true;
+		boolean TF = false;
 		do {
+
 			Scanner S1 = new Scanner(System.in);
+			TF = false;
+			while(!TF)
+			{
 			System.out.println("1. Excess My Account");
 			System.out.println("2. Create New Account");
 			Ans1 = S1.nextInt();
-			if(Ans1==1)
-			{
-				System.out.println("Please Enter The Account Number");
-				 ACCN = S1.nextInt();
-				//System.out.println("Please Enter The Password");
-				//int PS = S1.nextInt();
-			}else
-			{
-				System.out.println("Please Enter The User Name");
-				Scanner S2 = new Scanner(System.in);
-				Username = S2.nextLine();
-				ACCN = bank.createAccount(Username);
-				System.out.println("The Account Number is "+ACCN);
-				
+				if(Ans1==1)
+				{
+					System.out.println("Please Enter The Account Number");
+					ACCN = S1.nextInt();
+					TF = bank.loadAccounts(ACCN);
+					if(TF)
+					{
+						System.out.println("Sucessfully Loaded");
+					}else
+					{
+						System.out.println("Wrong Number");
+					}
+				}else
+				{
+					System.out.println("Please Enter The User Name");
+					Scanner S2 = new Scanner(System.in);
+					Username = S2.nextLine();
+					ACCN = bank.createAccount(Username);
+					System.out.println("The Account Number is "+ACCN);
+					
+					TF = true;
+				}
 			}
+			
 			do {
 				System.out.println("1. Check Info ");
 				System.out.println("2. Deposite ");
