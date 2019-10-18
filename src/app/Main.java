@@ -21,7 +21,7 @@ public class Main {
 				{
 					System.out.println("Please Enter The Account Number");
 					ACCN = S1.nextInt();
-					TF = bank.loadAccounts(ACCN);
+					TF = bank.loadAccount(ACCN);
 					if(TF)
 					{
 						System.out.println("Sucessfully Loaded");
@@ -47,7 +47,7 @@ public class Main {
 				System.out.println("3. Withdraw ");
 				System.out.println("4. Close Account ");
 				System.out.println("5. Transfer ");
-				System.out.println("6. Exit");
+				System.out.println("6. Exit(Automatically Closed)");
 				Ans2 = S1.nextInt();
 				//System.out.println("
 				switch(Ans2)
@@ -78,11 +78,16 @@ public class Main {
 					break;
 
 				case 5:
-					
+					Scanner S3 = new Scanner(System.in);
+					System.out.println("Please Enter the Account Number You Want to Transfer");
+					int DA = S3.nextInt();
+					System.out.println("Please Enter Amount");
+					int amount = S3.nextInt();
+					bank.tranfer(ACCN, DA, amount);
 					break;
 
 				case 6:
-					
+					bank.closeAccount(ACCN);
 				}
 			}while(Ans2!=6);
 			System.out.println("Thanks");
