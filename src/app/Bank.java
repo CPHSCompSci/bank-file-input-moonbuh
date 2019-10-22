@@ -11,6 +11,7 @@ public class Bank {
 	private static int accountCounter = 1;
 	private String name;
 	private ArrayList<Account> accounts;
+	private String fileS;
 	
 	public Bank() {
 		this("Bank Name");
@@ -91,16 +92,19 @@ public class Bank {
 	public void saveAccounts(int AccountNumber) {
 		// TODO
 		Account account = findAccount(AccountNumber);
-		String RFI;boolean TF = true;
+		String RFI;
 		try
 		{
 			FileWriter fw = new FileWriter("Info.txt");
 			BufferedReader br = new BufferedReader(new FileReader("Info.txt"));
+			
+			fileS = "";
 			while ((RFI = br.readLine()) != null) 
 	        {
-				fw.append(RFI);
+				fileS = fileS+RFI+"\n";
 	        }
-			fw.append(account.toString()+"\n");
+			fw.append(fileS);
+			fw.append(account.toString());
 			fw.close();
 			br.close();
 			
@@ -111,18 +115,26 @@ public class Bank {
 	}
 	public String getAccountIF(int AN)
 	{
-		String AIF,AIF2; int AIFAN;
+		String AIF,AIF2; int AIFAN; AIF2= "";
 		 try(BufferedReader br = new BufferedReader(new FileReader("Info.txt")))
 		    {
+			 fileS = ""; 
+			 FileWriter fw = new FileWriter("Info.txt");
 			 while ((AIF = br.readLine()) != null) 
 		        {
+				 	
 		            AIFAN = Integer.parseInt(AIF.substring(1, 5));
 		            if(AIFAN == AN)
 		            {
-
-			            return AIF;
+			            AIF2 = AIF;
+		            }else
+		            {
+		            	fileS = fileS+AIF+"\n";
 		            }
 		        }
+			 fw.append(fileS);
+			 fw.close();
+			 return AIF2;
 		    }
 		    catch (IOException e) 
 		    {
